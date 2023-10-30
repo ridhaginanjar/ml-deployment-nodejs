@@ -5,18 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
-    "express": "^4.12.0",
-    "dotenv": "^16.0.1",
-    "body-parser": "^1.15.2",
-    "@tensorflow/tfjs-core": "^4.12.0",
-    "@tensorflow/tfjs-converter": "^4.12.0",
-    "@tensorflow/tfjs-layers": "^4.12.0",
-    "@tensorflow/tfjs-data": "^4.12.0",
-    "@tensorflow/tfjs-backend-cpu": "^4.12.0"
+    "@hapi/hapi": "^21.3.2",
+    "@hapi/inert": "^7.1.0",
+    "@tensorflow/tfjs-node": "^4.12.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
