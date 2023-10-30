@@ -1,5 +1,4 @@
 const Hapi = require('@hapi/hapi');
-const Inert = require('@hapi/inert');
 const { loadModel, predict } = require('./ml');
 
 (async () => {
@@ -12,9 +11,6 @@ const { loadModel, predict } = require('./ml');
     host: 'localhost',
     port: 3000
   });
-
-  // register Inert plugin for upload feature
-  await server.register(Inert);
 
   server.route({
     method: 'POST',
