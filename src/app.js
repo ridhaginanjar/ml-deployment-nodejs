@@ -2,11 +2,11 @@ const Hapi = require('@hapi/hapi');
 const { loadModel, predict } = require('./ml');
 
 (async () => {
-  // load model machine learning
+  // load and get machine learning model
   const model = await loadModel();
   console.log('model loaded!');
 
-  // initializing server
+  // initializing HTTP server
   const server = Hapi.server({
     host: 'localhost',
     port: 3000
@@ -16,20 +16,24 @@ const { loadModel, predict } = require('./ml');
     method: 'POST',
     path: '/predicts',
     handler: async (request) => {
+      // get image that uploaded by user
       const { image } = request.payload;
+      // do and get prediction result by giving model and image
       const predictions = await predict(model, image);
+      // get prediction result
       const [paper, rock] = predictions;
 
       if (paper) {
-        return { result: "paper" }
+        return { result: 'paper' };
       }
 
       if (rock) {
-        return { result: 'rock' }
+        return { result: 'rock' };
       }
 
-      return { result: 'scissors' }
+      return { result: 'scissors' };
     },
+    // make request payload as `multipart/form-data` to accept file upload
     options: {
       payload: {
         allow: 'multipart/form-data',
