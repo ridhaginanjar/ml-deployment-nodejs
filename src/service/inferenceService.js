@@ -7,10 +7,13 @@ async function predictClassification(model, image) {
     .expandDims()
     .toFloat()
 
+    const classes = ['Melanocytic nevus', 'Squamous cell carcinoma', 'Vascular lesion' ];
+
     const prediction = model.predict(tensor);
     const score = await prediction.data();
     const confidenceScore = Math.max(...score) * 100;
-    const label = prediction.argMax().dataSync()[0];
+    const classResult = prediction.argMax().dataSync()[0];
+    const label = classes[classResult];
 
     return {confidenceScore, label};
 }

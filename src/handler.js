@@ -13,6 +13,7 @@ async function postPredictHandler(request, h) {
         // Make Predictions
         const { image } = request.payload;
         const {confidenceScore, label} = await predictClassification(model, image);
+        console.log(`ini adalah ${confidenceScore} dan ${label}`);
 
         const result = {
             "id": id,
