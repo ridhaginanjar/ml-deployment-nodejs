@@ -7,8 +7,8 @@ const loadModel = require('./service/loadModel');
 
 (async () => {
     const server = Hapi.server({
-        port:3000,
-        host:'localhost',
+        port: 3000,
+        host: 'localhost',
     })
 
     const model = await loadModel();
@@ -16,10 +16,10 @@ const loadModel = require('./service/loadModel');
 
     server.route(routes);
 
-    server.ext('onPreResponse', function(request, h) {
+    server.ext('onPreResponse', function (request, h) {
         const response = request.response;
 
-        if(response instanceof InputError) {
+        if (response instanceof InputError) {
             const newResponse = h.response({
                 status: 'fail',
                 message: `${response.message} Silakan gunakan foto lain.`
@@ -28,7 +28,7 @@ const loadModel = require('./service/loadModel');
             return newResponse;
         }
 
-        if(response.isBoom) {
+        if (response.isBoom) {
             const newResponse = h.response({
                 status: 'fail',
                 message: response.message
