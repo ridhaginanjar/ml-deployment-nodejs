@@ -1,44 +1,29 @@
-const { nanoid } = require('nanoid');
+const crypto = require('crypto');
 const predictClassification = require('./service/inferenceService');
-const load_model = require('./service/loadModel');
 
 async function postPredictHandler(request, h) {
-    try {
-        const id = nanoid(16);
-        const createdAt = new Date().toISOString();
+    // Make Predictions
+    const { image } = request.payload;
+    const { model } = request.server.app;
+    const { confidenceScore, label } = await predictClassification(model, image);
 
-        // Load model
-        const model = await load_model();
+    const id = crypto.randomUUID();
+    const createdAt = new Date().toISOString();
 
-        // Make Predictions
-        const { image } = request.payload;
-        const {confidenceScore, label} = await predictClassification(model, image);
-        console.log(`ini adalah ${confidenceScore} dan ${label}`);
-
-        const result = {
-            "id": id,
-            "result": label,
-            "confidenceScore": confidenceScore,
-            "createdAt": createdAt
-        }
-
-        const response = h.response({
-            status: 'success',
-            message: confidenceScore > 0.6 ? 'Model is predicted successfully.': 'Model is predicted successfully but under threshold. Please use the correct picture',
-            data: result
-        })
-        response.code(201);
-        return response;
-    } catch(error) {
-        const response = h.response({
-            status: 'fail',
-            message: "Maximum file is 1MB."
-        })
-
-        response.code(400);
-        return response;
+    const data = {
+        "id": id,
+        "result": label,
+        "confidenceScore": confidenceScore,
+        "createdAt": createdAt
     }
 
+    const response = h.response({
+        status: 'success',
+        message: confidenceScore > 0.6 ? 'Model is predicted successfully.' : 'Model is predicted successfully but under threshold. Please use the correct picture',
+        data
+    })
+    response.code(201);
+    return response;
 }
 
 module.exports = postPredictHandler;
