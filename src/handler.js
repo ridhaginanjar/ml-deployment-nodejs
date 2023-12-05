@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const predictClassification = require('./service/inferenceService');
+const storeDataToFireStore = require('./service/storeData');
 
 async function postPredictHandler(request, h) {
     // Make Predictions
@@ -16,6 +17,10 @@ async function postPredictHandler(request, h) {
         "confidenceScore": confidenceScore,
         "createdAt": createdAt
     }
+
+    // Simpan data ke Firestore
+    await storeDataToFireStore(id, data);
+    console.log("Data berhasil disimpan");
 
     const response = h.response({
         status: 'success',
