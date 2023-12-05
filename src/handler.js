@@ -1,13 +1,11 @@
 const crypto = require('crypto');
 const predictClassification = require('./service/inferenceService');
 const storeDataToFireStore = require('./service/storeData');
-const loadModel = require('./service/loadModel');
 
 async function postPredictHandler(request, h) {
   // Make Predictions
-  const model = await loadModel();
   const { image } = request.payload;
-  // const { model } = request.server.app;
+  const { model } = request.server.app;
   const { confidenceScore, label } = await predictClassification(model, image);
 
   const id = crypto.randomUUID();

@@ -12,7 +12,7 @@ const loadModel = require('./service/loadModel');
     })
 
     const model = await loadModel();
-    // server.app.model = model;
+    server.app.model = model;
 
     server.route(routes);
 
