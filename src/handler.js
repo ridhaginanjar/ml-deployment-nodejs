@@ -20,7 +20,6 @@ async function postPredictHandler(request, h) {
 
   // Simpan data ke Firestore
   await storeDataToFireStore(id, data);
-  console.log("Data berhasil disimpan");
 
   const response = h.response({
     status: 'success',
