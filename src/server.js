@@ -8,7 +8,7 @@ const loadModel = require('./service/loadModel');
 (async () => {
     const server = Hapi.server({
         port: 3000,
-        host: '0.0.0.0',
+        host: 'localhost',
         routes: {
             cors: {
               origin: ['*'],
@@ -29,7 +29,7 @@ const loadModel = require('./service/loadModel');
                 status: 'fail',
                 message: `${response.message} Silakan gunakan foto lain.`
             })
-            newResponse.code(response.output.statusCode)
+            newResponse.code(response.statusCode)
             return newResponse;
         }
 
